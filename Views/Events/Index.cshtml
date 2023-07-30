@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@model IEnumerable<Event>
+
+<h2>Upcoming Events</h2>
+
+@if (Model != null)
+{
+    foreach (var eventItem in Model)
+    {
+        <div>
+            <h3>@eventItem.name</h3>
+            
+
+
+            @foreach (var image in eventItem.images)
+            {
+                if (image.width == 2048)
+                {
+                    <img src=@image.url width="427" height="240">
+                }
+            }
+
+            @{
+                DateTime date = DateTime.Parse(eventItem.dates.start.localDate);
+                string descDate = date.ToString("dddd - MMMM d, yyyy");
+                string descTime;
+                if (eventItem.dates.start.localTime != null)
+                {
+                    DateTime time = Convert.ToDateTime(eventItem.dates.start.localTime);
+                    descTime = time.ToString("h:mm tt");
+                }
+                else
+                {
+                   descTime = "N/A"; 
+                }
+               
+            }
+
+            <p>Date: @descDate</p>
+            <p>Time: @descTime</p>
+            <p>Venue: @eventItem._embedded.venues[0].name</p>
+            <a href="@eventItem.url" target="_blank">Buy Tickets</a>
+        </div>
+        <hr />
+    }
+}
+else
+{
+    <p>@ViewBag.ErrorMessage</p>
+}

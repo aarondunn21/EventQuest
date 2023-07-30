@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@model IEnumerable<Event>
+
+<h2>Upcoming Events</h2>
+
+@if (Model != null)
+{
+    foreach (var eventItem in Model)
+    {
+        <div>
+            <h3>@eventItem.name</h3>
+            <p>Date: @eventItem.dates.start.localDate</p>
+            <p>Time: @eventItem.dates.start.localTime</p>
+            <p>Venue: @eventItem._embedded.venues[0].name</p>
+        </div>
+        <hr />
+    }
+}
+else
+{
+    <p>@ViewBag.ErrorMessage</p>
+}
